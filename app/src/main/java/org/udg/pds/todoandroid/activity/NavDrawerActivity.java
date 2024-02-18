@@ -1,5 +1,6 @@
 package org.udg.pds.todoandroid.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -12,6 +13,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -40,7 +42,7 @@ public class NavDrawerActivity extends AppCompatActivity
                         @Override
                         public void onClick(View view) {
                             Intent i = new Intent(NavDrawerActivity.this, TestActivity.class);
-                            startActivity(i);
+                            startActivityForResult(i, 1);
                         }
                     }).show();
             }
@@ -54,6 +56,23 @@ public class NavDrawerActivity extends AppCompatActivity
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            if(resultCode == Activity.RESULT_OK){
+                String result = data.getStringExtra("result");
+                TextView tv = (TextView)findViewById(R.id.text_nd);
+                tv.setText(result);
+            }
+            else {
+                Toast.makeText(this, "No result!", Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
 
     @Override
     public void onBackPressed() {
